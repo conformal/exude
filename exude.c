@@ -26,7 +26,6 @@
 
 int			e_runtime_disable = 0;
 
-/* e_malloc */
 void *
 e_malloc_internal(size_t sz, int clear)
 {
@@ -43,6 +42,22 @@ e_malloc_internal(size_t sz, int clear)
 		p = malloc(sz);
 	if (p == NULL) {
 		CFATAL("sz %zu clear %d", sz, clear);
+	}
+
+	return (p);
+}
+
+void *
+e_calloc_internal(size_t nmemb, size_t sz)
+{
+	void			*p;
+
+	if (nmemb <= 0 || sz <= 0)
+		CFATALX("invalid calloc size %zu", sz);
+
+	p = calloc(nmemb, sz);
+	if (p == NULL) {
+		CFATAL("nmemb %zu sz %zu", nmemb, sz);
 	}
 
 	return (p);
@@ -175,6 +190,26 @@ e_malloc_debug(size_t sz, int clear, const char *file, const char *func,
 		memset(p, 0xfe, sz);
 
 	e_mem_add_rb(p, sz, file, func, line);
+
+	return (p);
+}
+
+void *
+e_calloc_debug(size_t nmemb, size_t sz, const char *file,
+    const char *func, int line)
+{
+	void			*p;
+
+	if (emd_init == 0)
+		e_mem_init();
+	if (e_runtime_disable)
+		return (e_calloc_internal(nmemb, sz));
+
+	p = e_calloc_internal(nmemb, sz);
+	CDBG("nmemb %zu sz %zu file %s func %s line %d "
+	    "p %p", nmemb, sz, file, func, line, p);
+
+	e_mem_add_rb(p, nmemb * sz, file, func, line);
 
 	return (p);
 }
