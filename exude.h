@@ -17,6 +17,12 @@
 
 #include <sys/tree.h>
 
+/* versioning */
+#define EXUDE_VERSION_MAJOR	0
+#define EXUDE_VERSION_MINOR	2
+#define EXUDE_VERSION_PATCH	0
+#define EXUDE_VERSION		"0.2.0"
+
 #define E_MEM_DEBUG
 
 #define E_MEM_CLEAR	(1<<0)

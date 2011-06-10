@@ -24,7 +24,21 @@
 
 #include "exude.h"
 
+static const char *cvstag = "$exude$"; 
+static const char *vertag = "version: " EXUDE_VERSION;
+
 int			e_runtime_disable = 0;
+
+void
+exude_version(int *major, int *minor, int *patch)
+{
+	*major = EXUDE_VERSION_MAJOR;
+	*minor = EXUDE_VERSION_MINOR;
+	*patch = EXUDE_VERSION_PATCH;
+	/* Portable way to avoid unused variable compile warnings */
+	(void) (cvstag);
+	(void) (vertag);
+}
 
 void *
 e_malloc_internal(size_t sz, int clear)
