@@ -23,6 +23,8 @@
 #define EXUDE_VERSION_PATCH	0
 #define EXUDE_VERSION		"0.2.0"
 
+void	exude_version(int *major, int *minor, int *patch);
+
 #define E_MEM_DEBUG
 
 #define E_MEM_CLEAR	(1<<0)
