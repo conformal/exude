@@ -14,8 +14,7 @@ INCDIR?=${LOCALBASE}/include
 LIB= exude
 SRCS= exude.c
 HDRS= exude.h
-#MAN= exude.3
-NOMAN=
+MAN= exude.3
 
 DEBUG+= -ggdb3
 CFLAGS+= -Wall -Werror
