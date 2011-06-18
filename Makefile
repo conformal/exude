@@ -19,7 +19,7 @@ MAN= exude.3
 DEBUG+= -ggdb3
 CFLAGS+= -Wall -Werror
 CFLAGS+= -I${INCDIR}
-
+CLEANFILES+= exude.cat3
 
 afterinstall:
 	@cd ${.CURDIR}; for i in ${HDRS}; do \
