@@ -41,21 +41,17 @@ exude_version(int *major, int *minor, int *patch)
 }
 
 void *
-e_malloc_internal(size_t sz, int clear)
+e_malloc_internal(size_t sz)
 {
 	void			*p;
 
-	if ((clear != E_MEM_CLEAR) && (clear != E_MEM_NOCLEAR))
-		CFATAL("invalid clear flag");
 	if (sz <= 0)
 		CFATALX("invalid malloc size %zu", sz);
 
-	if (clear == E_MEM_CLEAR)
-		p = calloc(1, sz);
-	else
-		p = malloc(sz);
+	p = malloc(sz);
+	
 	if (p == NULL) {
-		CFATAL("sz %zu clear %d", sz, clear);
+		CFATAL("sz %zu", sz);
 	}
 
 	return (p);
@@ -186,7 +182,7 @@ e_mem_add_rb(void *p, size_t sz, const char *file, const char *func, int line)
 }
 
 void *
-e_malloc_debug(size_t sz, int clear, const char *file, const char *func,
+e_malloc_debug(size_t sz, const char *file, const char *func,
     int line)
 {
 	void			*p;
@@ -194,13 +190,13 @@ e_malloc_debug(size_t sz, int clear, const char *file, const char *func,
 	if (emd_init == 0)
 		e_mem_init();
 	if (e_runtime_disable)
-		return (e_malloc_internal(sz, clear));
+		return (e_malloc_internal(sz));
 
-	p = e_malloc_internal(sz, clear);
-	CDBG("sz %zu clear %d file %s func %s line %d "
-	    "p %p", sz, clear, file, func, line, p);
+	p = e_malloc_internal(sz);
+	CDBG("sz %zu file %s func %s line %d "
+	    "p %p", sz, file, func, line, p);
 
-	if (clear == 0 && emd_paint_alloc == 1)
+	if (emd_paint_alloc == 1)
 		memset(p, 0xfe, sz);
 
 	e_mem_add_rb(p, sz, file, func, line);
