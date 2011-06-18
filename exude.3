@@ -25,9 +25,11 @@
 .Ft int
 .Fn e_asprintf "char **ret" "const char *fmt" "..."
 .Ft void * 
-.Fn e_calloc "size_t nmemb" "size_t sz"
+.Fn e_calloc "size_t nmemb" "size_t size"
 .Ft void
 .Fn e_free "void **ptr"
+.Ft void *
+.Fn e_malloc "size_t size"
 .Ft void *
 .Fn e_realloc "void *ptr" "size_t size"
 .Ft char *
