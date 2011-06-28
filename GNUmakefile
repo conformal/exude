@@ -11,6 +11,7 @@ LOCALBASE ?= /usr/local
 BINDIR ?= ${LOCALBASE}/bin
 LIBDIR ?= ${LOCALBASE}/lib
 INCDIR ?= ${LOCALBASE}/include
+MANDIR ?= $(LOCALBASE)/share/man
 
 # Use obj directory if it exists.
 OBJPREFIX ?= obj/
@@ -44,12 +45,14 @@ SHARED_OBJ_EXT ?= o
 LIB.NAME = exude
 LIB.SRCS = exude.c
 LIB.HEADERS = exude.h
+LIB.MANPAGES = exude.3
 LIB.OBJS = $(addprefix $(OBJPREFIX), $(LIB.SRCS:.c=.o))
 LIB.SOBJS = $(addprefix $(OBJPREFIX), $(LIB.SRCS:.c=.$(SHARED_OBJ_EXT)))
 LIB.DEPS = $(addsuffix .depend, $(LIB.OBJS))
 ifneq "$(LIB.OBJS)" "$(LIB.SOBJS)"
 	LIB.DEPS += $(addsuffix .depend, $(LIB.SOBJS))
 endif
+LIB.MDIRS = $(foreach page, $(LIB.MANPAGES), $(subst ., man, $(suffix $(page)))) 
 LIB.LDFLAGS = $(LDFLAGS.EXTRA) $(LDFLAGS) 
 
 all: $(OBJPREFIX)$(LIB.SHARED) $(OBJPREFIX)$(LIB.STATIC)
@@ -84,13 +87,22 @@ install:
 	$(LN) $(LNFLAGS) $(LIB.SHARED) $(LIBDIR)/$(LIB.DEVLNK)
 	$(INSTALL) -m 0644 $(OBJPREFIX)$(LIB.STATIC) $(LIBDIR)/
 	$(INSTALL) -m 0644 $(LIB.HEADERS) $(INCDIR)/
+	$(INSTALL) -m 0755 -d $(addprefix $(MANDIR)/, $(LIB.MDIRS))
+	$(foreach page, $(LIB.MANPAGES), \
+		$(INSTALL) -m 0444 $(page) $(addprefix $(MANDIR)/, \
+		$(subst ., man, $(suffix $(page))))/; \
+	)
 	
 uninstall:
 	$(RM) $(LIBDIR)/$(LIB.DEVLNK)
 	$(RM) $(LIBDIR)/$(LIB.SONAME)
 	$(RM) $(LIBDIR)/$(LIB.SHARED)
 	$(RM) $(LIBDIR)/$(LIB.STATIC)
-	(cd $(INCDIR)/ && $(RM) $(LIB.HEADERS))
+	$(RM) $(addprefix $(INCDIR)/, $(LIB.HEADERS))
+	$(foreach page, $(LIB.MANPAGES), \
+		$(RM) $(addprefix $(MANDIR)/, \
+		$(subst ., man, $(suffix $(page))))/$(page); \
+	)
 	
 clean:
 	$(RM) $(LIB.SOBJS)
