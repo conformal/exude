@@ -43,7 +43,7 @@ make install DESTDIR=$RPM_BUILD_ROOT LOCALBASE=/usr
 %package devel
 Summary: Libraries and header files to develop applications using exude 
 Group: Development/Libraries
-Requires: clens >= 0.0.5, clog-devel >= 0.3.4
+Requires: clens-devel >= 0.0.5, clog-devel >= 0.3.4
 
 %description devel
 This package contains the libraries, include files, and documentation to
