@@ -10,7 +10,7 @@ Package: libexude-dev
 Section: libdevel
 Architecture: any
 Depends: libexude (= ${binary:Version})
-Description: Library that provides various logging services - development
+Description: Simple to use memory debugger library for C - development
  This package contains the libraries, include files, and documentation
  to develop applications with exude.
  exude is a simple to use memory debugger. The idea is to enhance standard
@@ -22,7 +22,7 @@ Package: libexude
 Section: libs
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
-Description: Library that provides various logging services - runtime
+Description: Simple to use memory debugger library for C - runtime
  This package contains the runtime, shared library of exude.
  exude is a simple to use memory debugger. The idea is to enhance standard
  memory allocation calls with simple replacements that add just a little more
