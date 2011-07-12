@@ -1,0 +1,30 @@
+Source: exude
+Priority: optional
+Maintainer: Conformal Systems LLC <package-discuss@conformal.com>
+Build-Depends: debhelper (>= 7), libc6-dev, locales
+Standards-Version: 3.8.3
+Section: libs
+Homepage: http://opensource.conformal.com/wiki/exude
+
+Package: libexude-dev
+Section: libdevel
+Architecture: any
+Depends: libexude (= ${binary:Version})
+Description: Library that provides various logging services - development
+ This package contains the libraries, include files, and documentation
+ to develop applications with exude.
+ exude is a simple to use memory debugger. The idea is to enhance standard
+ memory allocation calls with simple replacements that add just a little more
+ functionality, such as keeping track if memory was previously allocated, to
+ prevent common errors such as double free, memory leaks etc.
+
+Package: libexude
+Section: libs
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Library that provides various logging services - runtime
+ This package contains the runtime, shared library of exude.
+ exude is a simple to use memory debugger. The idea is to enhance standard
+ memory allocation calls with simple replacements that add just a little more
+ functionality, such as keeping track if memory was previously allocated, to
+ prevent common errors such as double free, memory leaks etc.
