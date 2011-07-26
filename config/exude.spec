@@ -1,7 +1,7 @@
 # $exude$
 
 %define name		exude
-%define version		0.3.0
+%define version		0.3.1
 %define release		1
 
 Name: 		%{name}
@@ -57,5 +57,7 @@ develop applications with exude.
 /usr/lib/libexude.a
 
 %changelog
+* Tue Jul 26 2011 - davec 0.3.1-1
+- Don't link against clens directly from library
 * Tue Jul 03 2011 - davec 0.3.0-1
 - Create
