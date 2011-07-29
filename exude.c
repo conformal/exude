@@ -49,7 +49,6 @@ e_malloc_internal(size_t sz)
 		CFATALX("invalid malloc size %zu", sz);
 
 	p = malloc(sz);
-	
 	if (p == NULL) {
 		CFATAL("sz %zu", sz);
 	}
