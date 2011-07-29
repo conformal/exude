@@ -24,6 +24,8 @@
 #define EXUDE_VERSION		"0.3.1"
 
 void	exude_version(int *major, int *minor, int *patch);
+void	exude_enable(void);
+void	exude_disable(void);
 
 #define E_MEM_DEBUG
 

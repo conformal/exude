@@ -27,7 +27,7 @@
 static const char *cvstag = "$exude$"; 
 static const char *vertag = "version: " EXUDE_VERSION;
 
-int			e_runtime_disable = 0;
+int			e_runtime_disable = 1;
 
 void
 exude_version(int *major, int *minor, int *patch)
@@ -38,6 +38,18 @@ exude_version(int *major, int *minor, int *patch)
 	/* Portable way to avoid unused variable compile warnings */
 	(void) (cvstag);
 	(void) (vertag);
+}
+
+void
+exude_enable(void)
+{
+	e_runtime_disable = 0;
+}
+
+void
+exude_disable(void)
+{
+	e_runtime_disable = 1;
 }
 
 void *
