@@ -180,12 +180,8 @@ e_mem_add_rb(void *p, size_t sz, const char *file, const char *func, int line)
 		CFATAL("emd");
 	emd->emd_address = p;
 	emd->emd_size = sz;
-	emd->emd_file = strdup(file);
-	if (emd->emd_file == NULL)
-		CFATAL("emd->emd_file");
-	emd->emd_func = strdup(func);
-	if (emd->emd_func == NULL)
-		CFATAL("emd->emd_func");
+	emd->emd_file = file;
+	emd->emd_func = func;
 	emd->emd_line = line;
 
 	if (RB_INSERT(e_mem_debug_tree, &emd_mem_debug, emd))
@@ -259,8 +255,6 @@ e_free_debug(void **p, const char *file, const char *func, int line)
 		RB_REMOVE(e_mem_debug_tree, &emd_mem_debug, emd);
 		if (emd_paint_free)
 			memset(emd->emd_address, 0xff, emd->emd_size);
-		free(emd->emd_file);
-		free(emd->emd_func);
 		free(emd);
 
 		e_free_internal(p);
@@ -357,8 +351,6 @@ e_realloc_debug(void *p, size_t sz, const char *file, const char *func,
 			CFATALX("realloc fail");
 		CDBG("found %p %zu now %p %zu", p, emd->emd_size, np, sz);
 		RB_REMOVE(e_mem_debug_tree, &emd_mem_debug, emd);
-		free(emd->emd_file);
-		free(emd->emd_func);
 		free(emd);
 		e_mem_add_rb(np, sz, file, func, line);
 	} else

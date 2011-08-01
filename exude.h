@@ -55,8 +55,8 @@ void	*e_realloc_debug(void *, size_t, const char *, const char *, int);
 struct e_mem_debug {
 	void		*emd_address;
 	size_t		emd_size;
-	char		*emd_file;
-	char		*emd_func;
+	const char	*emd_file;
+	const char	*emd_func;
 	int		emd_line;
 	RB_ENTRY(e_mem_debug)	emd_entry;	/* r/b on address */
 };
