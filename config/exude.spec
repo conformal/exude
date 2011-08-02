@@ -1,7 +1,7 @@
 # $exude$
 
 %define name		exude
-%define version		0.3.1
+%define version		0.4.0
 %define release		1
 
 Name: 		%{name}
@@ -57,6 +57,10 @@ develop applications with exude.
 /usr/lib/libexude.a
 
 %changelog
+* Tue Aug 02 2011 - davec 0.4.0-1
+- Add functions to enable and disable at run-time
+- Lower memory usage for allocation tracking
+- Allocation tracking is now disabled by default
 * Tue Jul 26 2011 - davec 0.3.1-1
 - Don't link against clens directly from library
 * Tue Jul 03 2011 - davec 0.3.0-1

@@ -1,3 +1,11 @@
+exude (0.4.0-1) unstable; urgency=low
+
+  * Add functions to enable and disable at run-time
+  * Lower memory usage for allocation tracking
+  * Allocation tracking is now disabled by default
+
+ -- Conformal Systems <package-discuss@conformal.com>  Tue, 02 Aug 2011 13:39:26 -0500
+
 exude (0.3.1-1) unstable; urgency=low
 
   * Don't link against clens directly from library

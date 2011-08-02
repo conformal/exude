@@ -18,7 +18,7 @@ Description: Simple to use memory debugger library for C - development
  functionality, such as keeping track if memory was previously allocated, to
  prevent common errors such as double free, memory leaks etc.
 
-Package: libexude1
+Package: libexude2
 Section: libs
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
