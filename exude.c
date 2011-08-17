@@ -339,7 +339,7 @@ e_realloc_debug(void *p, size_t sz, const char *file, const char *func,
 	if (p == NULL) {
 		np = malloc(sz);
 		if (np == NULL)
-			CFATALX("malloc failed");
+			CFATALX("malloc fail");
 		e_mem_add_rb(np, sz, file, func, line);
 		return (np);
 	}
