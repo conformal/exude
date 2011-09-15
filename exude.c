@@ -31,6 +31,7 @@ static const char *vertag = "version: " EXUDE_VERSION;
 #endif
 
 int			e_runtime_disable = 1;
+uint64_t		exude_clog_debug_mask;
 
 const char *
 exude_verstring(void)
@@ -47,9 +48,10 @@ exude_version(int *major, int *minor, int *patch)
 }
 
 void
-exude_enable(void)
+exude_enable(uint64_t debugmask)
 {
 	e_runtime_disable = 0;
+	exude_clog_debug_mask = debugmask;
 }
 
 void
@@ -207,7 +209,7 @@ e_malloc_debug(size_t sz, const char *file, const char *func,
 		return (e_malloc_internal(sz));
 
 	p = e_malloc_internal(sz);
-	CDBG("sz %lu file %s func %s line %d "
+	CNDBG(exude_clog_debug_mask, "sz %lu file %s func %s line %d "
 	    "p %p", (unsigned long) sz, file, func, line, p);
 
 	if (emd_paint_alloc == 1)
@@ -230,7 +232,8 @@ e_calloc_debug(size_t nmemb, size_t sz, const char *file,
 		return (e_calloc_internal(nmemb, sz));
 
 	p = e_calloc_internal(nmemb, sz);
-	CDBG("nmemb %lu sz %lu file %s func %s line %d "
+	CNDBG(exude_clog_debug_mask,
+	    "nmemb %lu sz %lu file %s func %s line %d "
 	    "p %p", (unsigned long) nmemb, (unsigned long) sz, file, func,
 	    line, p);
 
@@ -254,7 +257,7 @@ e_free_debug(void **p, const char *file, const char *func, int line)
 	if (p == NULL)
 		CFATALX("bad pointer");
 
-	CDBG("p %p file %s func %s line %d",
+	CNDBG(exude_clog_debug_mask, "p %p file %s func %s line %d",
 	    *p, file, func, line);
 
 	e.emd_address = *p;
@@ -283,7 +286,7 @@ e_strdup_debug(const char *s, const char *file, const char *func, int line)
 
 	p = e_strdup_internal(s);
 
-	CDBG("p %p p %s", s, s);
+	CNDBG(exude_clog_debug_mask, "p %p p %s", s, s);
 
 	e_mem_add_rb(p, strlen(p), file, func, line);
 
@@ -343,7 +346,7 @@ e_realloc_debug(void *p, size_t sz, const char *file, const char *func,
 	if (e_runtime_disable)
 		return(e_realloc_internal(p, sz));
 
-	CDBG("looking for %p", p);
+	CNDBG(exude_clog_debug_mask, "looking for %p", p);
 	if (p == NULL) {
 		np = malloc(sz);
 		if (np == NULL)
@@ -357,7 +360,7 @@ e_realloc_debug(void *p, size_t sz, const char *file, const char *func,
 		np = realloc(p, sz);
 		if (np == NULL)
 			CFATALX("realloc fail");
-		CDBG("found %p %lu now %p %lu", p,
+		CNDBG(exude_clog_debug_mask, "found %p %lu now %p %lu", p,
 		    (unsigned long) emd->emd_size, np, (unsigned long) sz);
 		RB_REMOVE(e_mem_debug_tree, &emd_mem_debug, emd);
 		free(emd);
@@ -365,7 +368,7 @@ e_realloc_debug(void *p, size_t sz, const char *file, const char *func,
 	} else
 		CFATALX("%p not found for realloc", p);
 
-	CDBG("old %p new %p", p, np);
+	CNDBG(exude_clog_debug_mask, "old %p new %p", p, np);
 
 	return (np);
 }
@@ -391,6 +394,6 @@ e_check_memory(void)
 		CABORTX("terminated");
 	}
 
-	CDBG("memory clean");
+	CNDBG(exude_clog_debug_mask, "memory clean");
 }
 #endif /* E_MEM_DEBUG */

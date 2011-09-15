@@ -40,7 +40,7 @@
 .Ft void
 .Fn exude_version "int *major" "int *minor" "int *patch"
 .Ft void
-.Fn exude_enable "void"
+.Fn exude_enable "uint64_t debug_bit"
 .Ft void
 .Fn exude_disable "void"
 .Sh DESCRIPTION
@@ -52,6 +52,16 @@ and
 .Fn exude_disable
 are routines to enable and disable debugging respectively.  Debugging
 is disabled by default.
+The
+.Fa debug_mask
+parameter to
+.Fn exude_enable
+determines the
+.Xr clog 3
+debug mask that will be used by debugging functions.
+The macro
+.Fa EXUDE_DBG_ALWAYS
+may be used to log unconditionally.
 .Pp
 .Fn e_asprintf ,
 .Fn e_calloc ,

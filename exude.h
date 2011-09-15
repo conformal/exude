@@ -30,7 +30,8 @@
 
 const char	*exude_verstring(void);
 void		 exude_version(int *major, int *minor, int *patch);
-void		 exude_enable(void);
+#define	EXUDE_DBG_ALWAYS	(~(0Ull))
+void		 exude_enable(uint64_t);
 void		 exude_disable(void);
 
 #define E_MEM_DEBUG
