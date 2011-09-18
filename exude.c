@@ -1,4 +1,3 @@
-/* $exude$ */
 /*
  * Copyright (c) 2011 Conformal Systems LLC <info@conformal.com>
  *
@@ -24,7 +23,6 @@
 
 #include "exude.h"
 
-static const char *cvstag = "$exude$"; 
 static const char *vertag = "version: " EXUDE_VERSION;
 
 int			e_runtime_disable = 1;
@@ -36,7 +34,6 @@ exude_version(int *major, int *minor, int *patch)
 	*minor = EXUDE_VERSION_MINOR;
 	*patch = EXUDE_VERSION_PATCH;
 	/* Portable way to avoid unused variable compile warnings */
-	(void) (cvstag);
 	(void) (vertag);
 }
 
