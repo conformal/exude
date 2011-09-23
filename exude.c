@@ -55,11 +55,11 @@ e_malloc_internal(size_t sz)
 	void			*p;
 
 	if (sz <= 0)
-		CFATALX("invalid malloc size %zu", sz);
+		CFATALX("invalid malloc size %lu", (unsigned long) sz);
 
 	p = malloc(sz);
 	if (p == NULL) {
-		CFATAL("sz %zu", sz);
+		CFATAL("sz %lu", (unsigned long) sz);
 	}
 
 	return (p);
@@ -71,11 +71,12 @@ e_calloc_internal(size_t nmemb, size_t sz)
 	void			*p;
 
 	if (nmemb <= 0 || sz <= 0)
-		CFATALX("invalid calloc size %zu", sz);
+		CFATALX("invalid calloc size %lu", (unsigned long) sz);
 
 	p = calloc(nmemb, sz);
 	if (p == NULL) {
-		CFATAL("nmemb %zu sz %zu", nmemb, sz);
+		CFATAL("nmemb %lu sz %lu", (unsigned long) nmemb,
+		    (unsigned long) sz);
 	}
 
 	return (p);
@@ -197,8 +198,8 @@ e_malloc_debug(size_t sz, const char *file, const char *func,
 		return (e_malloc_internal(sz));
 
 	p = e_malloc_internal(sz);
-	CDBG("sz %zu file %s func %s line %d "
-	    "p %p", sz, file, func, line, p);
+	CDBG("sz %lu file %s func %s line %d "
+	    "p %p", (unsigned long) sz, file, func, line, p);
 
 	if (emd_paint_alloc == 1)
 		memset(p, 0xfe, sz);
@@ -220,8 +221,9 @@ e_calloc_debug(size_t nmemb, size_t sz, const char *file,
 		return (e_calloc_internal(nmemb, sz));
 
 	p = e_calloc_internal(nmemb, sz);
-	CDBG("nmemb %zu sz %zu file %s func %s line %d "
-	    "p %p", nmemb, sz, file, func, line, p);
+	CDBG("nmemb %lu sz %lu file %s func %s line %d "
+	    "p %p", (unsigned long) nmemb, (unsigned long) sz, file, func,
+	    line, p);
 
 	e_mem_add_rb(p, nmemb * sz, file, func, line);
 
@@ -346,7 +348,8 @@ e_realloc_debug(void *p, size_t sz, const char *file, const char *func,
 		np = realloc(p, sz);
 		if (np == NULL)
 			CFATALX("realloc fail");
-		CDBG("found %p %zu now %p %zu", p, emd->emd_size, np, sz);
+		CDBG("found %p %lu now %p %lu", p,
+		    (unsigned long) emd->emd_size, np, (unsigned long) sz);
 		RB_REMOVE(e_mem_debug_tree, &emd_mem_debug, emd);
 		free(emd);
 		e_mem_add_rb(np, sz, file, func, line);
@@ -369,12 +372,12 @@ e_check_memory(void)
 	if (!RB_EMPTY(&emd_mem_debug)) {
 		CDBG("not all memory was freed");
 		RB_FOREACH(emd, e_mem_debug_tree, &emd_mem_debug) {
-			CDBG("file %s func %s line %d p %p sz %zu",
+			CDBG("file %s func %s line %d p %p sz %lu",
 			    emd->emd_file,
 			    emd->emd_func,
 			    emd->emd_line,
 			    emd->emd_address,
-			    emd->emd_size);
+			    (unsigned long) emd->emd_size);
 		}
 		CFATALX("terminated");
 	}
