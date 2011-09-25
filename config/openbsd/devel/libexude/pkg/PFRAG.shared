@@ -1,0 +1,2 @@
+@comment $OpenBSD$
+@lib lib/libexude.so.${LIBexude_VERSION}
