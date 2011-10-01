@@ -1,4 +1,3 @@
-
 SYSTEM != uname -s
 .if exists(${.CURDIR}/config/Makefile.$(SYSTEM:L))
 .  include "${.CURDIR}/config/Makefile.$(SYSTEM:L)"

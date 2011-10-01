@@ -17,13 +17,13 @@
 .Dt EXUDE 3
 .Os
 .Sh NAME
-.Nm exude 
-.Nd memory debugger 
+.Nm exude
+.Nd memory debugger
 .Sh SYNOPSIS
 .Fd #include <exude.h>
 .Ft int
 .Fn e_asprintf "char **ret" "const char *fmt" "..."
-.Ft void * 
+.Ft void *
 .Fn e_calloc "size_t nmemb" "size_t size"
 .Ft void
 .Fn e_free "void **ptr"
@@ -32,9 +32,9 @@
 .Ft void *
 .Fn e_realloc "void *ptr" "size_t size"
 .Ft char *
-.Fn e_strdup "const char *s"  
+.Fn e_strdup "const char *s"
 .Ft int
-.Fn e_vasprintf "char **ret" "const char *format" "va_list ap" 
+.Fn e_vasprintf "char **ret" "const char *format" "va_list ap"
 .Ft void
 .Fn exude_version "int *major" "int *minor" "int *patch"
 .Ft void

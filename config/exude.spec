@@ -1,4 +1,3 @@
-
 %define name		exude
 %define version		0.4.0
 %define release		1
@@ -40,7 +39,7 @@ make install DESTDIR=$RPM_BUILD_ROOT LOCALBASE=/usr
 
 
 %package devel
-Summary: Libraries and header files to develop applications using exude 
+Summary: Libraries and header files to develop applications using exude
 Group: Development/Libraries
 Requires: clens-devel >= 0.0.5, clog-devel >= 0.3.4
 
