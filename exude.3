@@ -69,6 +69,18 @@ is a wrapper function around
 but takes a pointer to a variable instead.  The variable will be set to
 NULL to remove references to the freed memory.
 .Pp
+.Fn e_check_memory
+can be called to verify that all
+.Nm
+tracked memory allocations have been freed.  This function will abort
+(coredump) if not all memory has been freed.  If
+.Xr clog_init 3
+and
+.Xr clog_set_flags 3
+have been called,
+.Fn e_check_memory
+will show all of the callers that allocated memory which have not been freed.
+.Pp
 .Fn exude_version
 sets the values of
 .Fa major ,
@@ -84,13 +96,30 @@ then free the memory:
 .Bd -literal -offset indent
 char *ptr;
 
+exude_enable();
+
 ptr = e_strdup("foobar");
 e_free(&str);
+.Ed
+.Pp
+The following use of
+.Fn e_check_memory
+will output memory allocation to stderr and abort due to all memory not
+being freed:
+.Bd -literal -offset indent
+clog_init(1);
+clog_set_flags(CLOG_F_ENABLE | CLOG_F_STDERR);
+
+exude_enable();
+
+p = e_malloc(len + 1);
+e_check_memory();
 .Ed
 .Sh SEE ALSO
 .Xr asprintf 3
 .Xr calloc 3
 .Xr clog_init 3
+.Xr clog_set_flags 3
 .Xr free 3
 .Xr malloc 3
 .Xr realloc 3
