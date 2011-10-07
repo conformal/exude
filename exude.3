@@ -1,5 +1,5 @@
 .\"
-.\" Copyright (c) 2010 Marco Peereboom <marco@peereboom.us>
+.\" Copyright (c) 2011 Marco Peereboom <marco@peereboom.us>
 .\"
 .\" Permission to use, copy, modify, and distribute this software for any
 .\" purpose with or without fee is hereby granted, provided that the above
@@ -44,9 +44,56 @@
 .Ft void
 .Fn exude_disable "void"
 .Pp
+.Sh DESCRIPTION
+.Nm
+is a memory debugging library that aids in finding memory leaks.
+.Pp
+.Fn exude_enable
+and
+.Fn exude_disable
+are routines to enable and disable debugging respectively.  Debugging
+is disabled by default. 
+.Pp
+.Fn e_asprintf ,
+.Fn e_calloc ,
+.Fn e_malloc ,
+.Fn e_realloc ,
+.Fn e_strdup ,
+and
+.Fn e_vasprintf
+are all wrapper functions to the standard system functions and are used
+in the same way.
+.Pp
+.Fn e_free
+is a wrapper function around
+.Xr free 3 ,
+but takes a pointer to a variable instead.
+.Pp
+.Fn exude_version
+sets the values of
+.Fa major ,
+.Fa minor ,
+and
+.Fa patch 
+to their respected values.
+.Pp
+.Sh EXAMPLES
+.Pp
+The following will point
+.Fa ptr
+to an allocated area of memory containing the NUL-terminated string "foobar",
+then free the memory:
+.Bd -literal -offset indent
+char *ptr;
+
+ptr = e_strdup("foobar");
+e_free(&str);
+.Ed
+.Pp
 .Sh SEE ALSO
 .Xr asprintf 3
 .Xr calloc 3
+.Xr clog_init 3
 .Xr free 3
 .Xr malloc 3
 .Xr realloc 3
