@@ -66,7 +66,8 @@ in the same way.
 .Fn e_free
 is a wrapper function around
 .Xr free 3 ,
-but takes a pointer to a variable instead.
+but takes a pointer to a variable instead.  The variable will be set to
+NULL to remove references to the freed memory.
 .Pp
 .Fn exude_version
 sets the values of
