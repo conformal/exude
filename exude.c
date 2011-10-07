@@ -370,16 +370,16 @@ e_check_memory(void)
 		return;
 
 	if (!RB_EMPTY(&emd_mem_debug)) {
-		CDBG("not all memory was freed");
+		CWARNX("not all memory was freed");
 		RB_FOREACH(emd, e_mem_debug_tree, &emd_mem_debug) {
-			CDBG("file %s func %s line %d p %p sz %lu",
+			CWARNX("file %s func %s line %d p %p sz %lu",
 			    emd->emd_file,
 			    emd->emd_func,
 			    emd->emd_line,
 			    emd->emd_address,
 			    (unsigned long) emd->emd_size);
 		}
-		CFATALX("terminated");
+		CABORTX("terminated");
 	}
 
 	CDBG("memory clean");
