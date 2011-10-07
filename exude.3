@@ -13,7 +13,7 @@
 .\" ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 .\" OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .\"
-.Dd $Mdocdate$
+.Dd $Mdocdate: October 7 2011 $
 .Dt EXUDE 3
 .Os
 .Sh NAME
@@ -43,7 +43,6 @@
 .Fn exude_enable "void"
 .Ft void
 .Fn exude_disable "void"
-.Pp
 .Sh DESCRIPTION
 .Nm
 is a memory debugging library that aids in finding memory leaks.
@@ -52,7 +51,7 @@ is a memory debugging library that aids in finding memory leaks.
 and
 .Fn exude_disable
 are routines to enable and disable debugging respectively.  Debugging
-is disabled by default. 
+is disabled by default.
 .Pp
 .Fn e_asprintf ,
 .Fn e_calloc ,
@@ -74,11 +73,9 @@ sets the values of
 .Fa major ,
 .Fa minor ,
 and
-.Fa patch 
+.Fa patch
 to their respected values.
-.Pp
 .Sh EXAMPLES
-.Pp
 The following will point
 .Fa ptr
 to an allocated area of memory containing the NUL-terminated string "foobar",
@@ -89,7 +86,6 @@ char *ptr;
 ptr = e_strdup("foobar");
 e_free(&str);
 .Ed
-.Pp
 .Sh SEE ALSO
 .Xr asprintf 3
 .Xr calloc 3
