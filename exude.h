@@ -19,10 +19,14 @@
 #include <sys/tree.h>
 
 /* versioning */
+#define EXUDE_STRINGIFY(x)	#x
+#define EXUDE_STR(x)		EXUDE_STRINGIFY(x)
 #define EXUDE_VERSION_MAJOR	0
 #define EXUDE_VERSION_MINOR	4
 #define EXUDE_VERSION_PATCH	0
-#define EXUDE_VERSION		"0.4.0"
+#define EXUDE_VERSION		EXUDE_STR(EXUDE_VERSION_MAJOR) "." \
+				EXUDE_STR(EXUDE_VERSION_MINOR) "." \
+				EXUDE_STR(EXUDE_VERSION_PATCH)
 
 void	exude_version(int *major, int *minor, int *patch);
 void	exude_enable(void);
