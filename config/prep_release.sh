@@ -30,7 +30,7 @@ VER_PREFIX="$PROJECT_UC"
 RPM_SPEC=${PROJECT}.spec
 DEB_CHANGELOG=debian/changelog
 PORT_CATEGORY=devel
-PORT_NAME=${PROJECT}
+PORT_NAME=lib${PROJECT}
 PORT_MAKEFILE=openbsd/${PORT_CATEGORY}/${PORT_NAME}/Makefile
 
 # verify params
