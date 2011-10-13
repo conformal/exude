@@ -9,7 +9,7 @@ Homepage: http://opensource.conformal.com/wiki/exude
 Package: libexude-dev
 Section: libdevel
 Architecture: any
-Depends: clens-dev (>= 0.0.5), libexude1 (= ${binary:Version})
+Depends: clens-dev (>= 0.0.5), libexude2 (= ${binary:Version})
 Description: Simple to use memory debugger library for C - development
  This package contains the libraries, include files, and documentation
  to develop applications with exude.
