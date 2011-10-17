@@ -14,9 +14,14 @@ SRCS= exude.c
 HDRS= exude.h
 MAN= exude.3
 
+BUILDVERSION != sh "${.CURDIR}/buildver.sh"
+
 DEBUG+= -ggdb3
 CFLAGS+= -Wall -Werror
 CFLAGS+= -I${INCDIR}
+.if !${BUILDVERSION} == ""
+CPPFLAGS+= -DBUILDSTR=\"$(BUILDVERSION)\"
+.endif
 CLEANFILES+= exude.cat3
 
 afterinstall:

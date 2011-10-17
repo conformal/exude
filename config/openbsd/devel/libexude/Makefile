@@ -5,7 +5,7 @@ COMMENT=	memory allocation debugger library
 DISTNAME=	exude-0.4.0
 PKGNAME=	lib${DISTNAME}
 CATEGORIES=    	devel
-SHARED_LIBS=	exude	2.0
+SHARED_LIBS=	exude	2.1
 
 HOMEPAGE=	http://opensource.conformal.com/wiki/Exude	
 MASTER_SITES=	http://opensource.conformal.com/snapshots/exude/

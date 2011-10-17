@@ -28,9 +28,10 @@
 				EXUDE_STR(EXUDE_VERSION_MINOR) "." \
 				EXUDE_STR(EXUDE_VERSION_PATCH)
 
-void	exude_version(int *major, int *minor, int *patch);
-void	exude_enable(void);
-void	exude_disable(void);
+const char	*exude_verstring(void);
+void		 exude_version(int *major, int *minor, int *patch);
+void		 exude_enable(void);
+void		 exude_disable(void);
 
 #define E_MEM_DEBUG
 
