@@ -59,6 +59,11 @@ then
 	exit 8
 fi
 
+if [ "${PORTSDIR}" = "" ]
+then
+	export PORTSDIR=/usr/ports
+fi
+
 rm -f ${name}-${VERSION}.tar.gz
 rm -f ${name}-${VERSION}
 ${SUDO} rm -rf bld
@@ -70,7 +75,7 @@ tar czf ${name}-${VERSION}.tar.gz ${name}-${VERSION}/*
 
 ls -l  ${name}-${VERSION}.tar.gz
 
-export PORTSDIR_PATH=${PWD}:${PACKAGE_DATA_DIR}:/usr/ports
+export PORTSDIR_PATH=${PWD}:${PACKAGE_DATA_DIR}:${PORTSDIR}
 export DISTDIR=${PWD}
 export PACKAGE_REPOSITORY=${PWD}
 
