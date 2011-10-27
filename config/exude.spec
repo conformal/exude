@@ -1,5 +1,5 @@
 %define name		exude
-%define version		0.4.0
+%define version		0.5.0
 %define release		1
 
 Name: 		%{name}
@@ -55,6 +55,12 @@ develop applications with exude.
 /usr/lib/libexude.a
 
 %changelog
+* Thu Oct 27 2011 - davec 0.5.0-1
+- Make exude.h self-contained
+- Several man page updates and corrections
+- Make failure messages consistent
+- Add build versioning
+- Other minor cleanup and bug fixes
 * Tue Aug 02 2011 - davec 0.4.0-1
 - Add functions to enable and disable at run-time
 - Lower memory usage for allocation tracking
