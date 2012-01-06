@@ -1,5 +1,5 @@
 %define name		exude
-%define version		0.5.0
+%define version		0.6.0
 %define release		1
 
 Name: 		%{name}
@@ -55,6 +55,8 @@ develop applications with exude.
 /usr/lib/libexude.a
 
 %changelog
+* Fri Jan 06 2012 - davec 0.6.0-1
+- Add ability to control debug printing with a bit mask
 * Thu Oct 27 2011 - davec 0.5.0-1
 - Make exude.h self-contained
 - Several man page updates and corrections
