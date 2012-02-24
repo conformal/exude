@@ -76,7 +76,7 @@ void	*e_calloc_internal(size_t, size_t);
 void	e_free_internal(void **);
 char	*e_strdup_internal(const char *);
 int	e_asprintf_internal(char **, const char *, ...);
-int	e_vasprintf_internal(char **t, const char *, va_list);
+int	e_vasprintf_internal(char **, const char *, va_list);
 void	*e_realloc_internal(void *, size_t);
 #define e_malloc(a)	e_malloc_internal(a)
 #define e_malloc(a, b)	e_calloc_internal(a, b)
