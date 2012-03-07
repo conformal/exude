@@ -1,0 +1,15 @@
+--- Makefile.orig	2012-01-06 16:02:14.000000000 -0600
++++ Makefile	2012-03-06 01:11:39.000000000 -0600
+@@ -4,9 +4,9 @@ SYSTEM != uname -s
+ .endif
+ 
+ LOCALBASE?=/usr/local
+-BINDIR?=${LOCALBASE}/bin
+-LIBDIR?=${LOCALBASE}/lib
+-INCDIR?=${LOCALBASE}/include
++BINDIR=${LOCALBASE}/bin
++LIBDIR=${LOCALBASE}/lib
++INCDIR=${LOCALBASE}/include
+ 
+ #WANTLINT=
+ LIB= exude

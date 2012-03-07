@@ -6,4 +6,3 @@ MANDIR=$(LOCALBASE)/man/man
 CFLAGS+= -fdiagnostics-show-option
 CFLAGS+= -DNEED_LIBCLENS
 CFLAGS+= -I${INCDIR}/clens
-NO_MAN=

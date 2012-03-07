@@ -1,0 +1,7 @@
+lib/libexude.a
+lib/libexude_p.a
+lib/libexude.so.3
+lib/libexude.so
+man/man3/exude.3.gz
+include/exude.h
+
