@@ -66,11 +66,11 @@ e_malloc_internal(size_t sz)
 	void			*p;
 
 	if (sz <= 0)
-		CFATALX("invalid malloc size %lu", (unsigned long) sz);
+		CABORTX("invalid malloc size %lu", (unsigned long) sz);
 
 	p = malloc(sz);
 	if (p == NULL) {
-		CFATAL("sz %lu", (unsigned long) sz);
+		CFATAL("malloc failed: sz %lu", (unsigned long) sz);
 	}
 
 	return (p);
@@ -82,12 +82,13 @@ e_calloc_internal(size_t nmemb, size_t sz)
 	void			*p;
 
 	if (nmemb <= 0 || sz <= 0)
-		CFATALX("invalid calloc size %lu", (unsigned long) sz);
+		CABORTX("invalid calloc size %lu %lu", (unsigned long) sz,
+		    (unsigned long)nmemb);
 
 	p = calloc(nmemb, sz);
 	if (p == NULL) {
-		CFATAL("nmemb %lu sz %lu", (unsigned long) nmemb,
-		    (unsigned long) sz);
+		CFATAL("calloc failed: nmemb %lu sz %lu",
+		    (unsigned long) nmemb, (unsigned long) sz);
 	}
 
 	return (p);
@@ -97,7 +98,7 @@ void
 e_free_internal(void **p)
 {
 	if (p == NULL)
-		CFATALX("bad pointer");
+		CABORTX("%s: bad pointer", __func__);
 	free(*p);
 	*p = NULL;
 }
@@ -108,11 +109,11 @@ e_strdup_internal(const char *s)
 	char			*r;
 
 	if (s == NULL)
-		CFATALX("bad pointer");
+		CABORTX("%s: bad pointer", __func__);
 
 	r = strdup(s);
 	if (r == NULL)
-		CFATAL("strdup fail");
+		CFATAL("strdup failed");
 
 	return (r);
 }
@@ -125,7 +126,7 @@ e_asprintf_internal(char **ret, const char *fmt, ...)
 
 	va_start(ap, fmt);
 	if ((sz = vasprintf(ret, fmt, ap)) == -1)
-		CFATAL("vasprintf fail");
+		CFATAL("vasprintf failed");
 	va_end(ap);
 
 	return (sz);
@@ -137,7 +138,7 @@ e_vasprintf_internal(char **ret, const char *fmt, va_list ap)
 	int			sz;
 
 	if ((sz = vasprintf(ret, fmt, ap)) == -1)
-		CFATAL("vasprintf fail");
+		CFATAL("vasprintf failed");
 
 	return (sz);
 }
@@ -149,7 +150,7 @@ e_realloc_internal(void *p, size_t sz)
 
 	np = realloc(p, sz);
 	if (np == NULL)
-		CFATALX("realloc fail");
+		CFATAL("realloc failed");
 
 	return (np);
 }
@@ -194,7 +195,7 @@ e_mem_add_rb(void *p, size_t sz, const char *file, const char *func, int line)
 	emd->emd_line = line;
 
 	if (RB_INSERT(e_mem_debug_tree, &emd_mem_debug, emd))
-		CFATALX("duplicate address");
+		CABORTX("duplicate address");
 }
 
 void *
@@ -248,14 +249,14 @@ e_free_debug(void **p, const char *file, const char *func, int line)
 	struct e_mem_debug	e, *emd;
 
 	if (emd_init == 0)
-		CFATALX("not init yet %s %s %d", file, func, line);
+		CABORTX("not init yet %s %s %d", file, func, line);
 	if (e_runtime_disable) {
 		e_free_internal(p);
 		return;
 	}
 
 	if (p == NULL)
-		CFATALX("bad pointer");
+		CABORTX("bad pointer");
 
 	CNDBG(exude_clog_debug_mask, "p %p file %s func %s line %d",
 	    *p, file, func, line);
@@ -305,7 +306,7 @@ e_asprintf_debug(char **ret, const char *file, const char *func, int line,
 
 	va_start(ap, fmt);
 	if ((sz = vasprintf(ret, fmt, ap)) == -1)
-		CFATAL("vasprintf fail");
+		CFATAL("vasprintf failed");
 	va_end(ap);
 
 	if (e_runtime_disable)
@@ -325,7 +326,7 @@ e_vasprintf_debug(char **ret, const char *file, const char *func, int line,
 		e_mem_init();
 
 	if ((sz = vasprintf(ret, fmt, ap)) == -1)
-		CFATAL("vasprintf fail");
+		CFATAL("vasprintf failed");
 
 	if (e_runtime_disable)
 		return (sz);
@@ -350,7 +351,7 @@ e_realloc_debug(void *p, size_t sz, const char *file, const char *func,
 	if (p == NULL) {
 		np = malloc(sz);
 		if (np == NULL)
-			CFATALX("malloc fail");
+			CFATAL("malloc failed");
 		e_mem_add_rb(np, sz, file, func, line);
 		return (np);
 	}
@@ -359,14 +360,14 @@ e_realloc_debug(void *p, size_t sz, const char *file, const char *func,
 	if ((emd = RB_FIND(e_mem_debug_tree, &emd_mem_debug, &e)) != NULL) {
 		np = realloc(p, sz);
 		if (np == NULL)
-			CFATALX("realloc fail");
+			CFATAL("realloc failed");
 		CNDBG(exude_clog_debug_mask, "found %p %lu now %p %lu", p,
 		    (unsigned long) emd->emd_size, np, (unsigned long) sz);
 		RB_REMOVE(e_mem_debug_tree, &emd_mem_debug, emd);
 		free(emd);
 		e_mem_add_rb(np, sz, file, func, line);
 	} else
-		CFATALX("%p not found for realloc", p);
+		CABORTX("%p not found for realloc", p);
 
 	CNDBG(exude_clog_debug_mask, "old %p new %p", p, np);
 
