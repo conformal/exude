@@ -113,8 +113,8 @@ uninstall:
 clean:
 	$(RM) $(LIB.SOBJS)
 	$(RM) $(OBJPREFIX)$(LIB.SHARED)
-	$(RM) $(OBJPREFIX)/$(LIB.SONAME)
-	$(RM) $(OBJPREFIX)/$(LIB.DEVLNK)
+	$(RM) $(OBJPREFIX)$(LIB.SONAME)
+	$(RM) $(OBJPREFIX)$(LIB.DEVLNK)
 	$(RM) $(LIB.OBJS)
 	$(RM) $(OBJPREFIX)$(LIB.STATIC)
 	$(RM) $(LIB.DEPS)
@@ -122,4 +122,3 @@ clean:
 -include $(LIB.DEPS)
 
 .PHONY: clean depend install uninstall
-
