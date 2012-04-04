@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011 Conformal Systems LLC <info@conformal.com>
+ * Copyright (c) 2011-2012 Conformal Systems LLC <info@conformal.com>
  *
  * Permission to use, copy, modify, and distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -41,8 +41,10 @@ struct e_mem_debug {
 };
 RB_HEAD(e_mem_debug_tree, e_mem_debug);
 
-int			e_runtime_disable = 1;
-uint64_t		exude_clog_debug_mask;
+static void e_mem_init();
+
+static int			e_runtime_disable = 1;
+static uint64_t			exude_clog_debug_mask;
 
 const char *
 exude_verstring(void)
@@ -63,6 +65,7 @@ exude_enable(uint64_t debugmask)
 {
 	e_runtime_disable = 0;
 	exude_clog_debug_mask = debugmask;
+	e_mem_init();
 }
 
 void
@@ -175,14 +178,34 @@ e_cmp_mem_debug_addr(struct e_mem_debug *c1, struct e_mem_debug *c2)
 
 RB_GENERATE(e_mem_debug_tree, e_mem_debug, emd_entry, e_cmp_mem_debug_addr)
 
-struct e_mem_debug_tree	emd_mem_debug;
-int			emd_init;
-int			emd_paint_free;
-int			emd_paint_alloc;
+#include "exude_threads.h"
+
+
+static void *emd_mtx;
+static struct e_mem_debug_tree	emd_mem_debug;
+static int			emd_init;
+static int			emd_paint_free;
+static int			emd_paint_alloc;
+
+void
+exude_enable_threads(void)
+{
+	EX_LOCK_ALLOC(&emd_mtx);
+}
+
+void
+exude_cleanup()
+{
+	if (emd_mtx)
+		EX_LOCK_FREE(&emd_mtx);
+}
 
 void
 e_mem_init(void)
 {
+	if (emd_init)
+		return;
+
 	RB_INIT(&emd_mem_debug);
 	emd_init = 1;
 	emd_paint_free = 1;
@@ -203,8 +226,10 @@ e_mem_add_rb(void *p, size_t sz, const char *file, const char *func, int line)
 	emd->emd_func = func;
 	emd->emd_line = line;
 
+	EX_LOCK(emd_mtx);
 	if (RB_INSERT(e_mem_debug_tree, &emd_mem_debug, emd))
 		CABORTX("duplicate address");
+	EX_UNLOCK(emd_mtx);
 }
 
 void *
@@ -213,12 +238,11 @@ e_malloc_debug(size_t sz, const char *file, const char *func,
 {
 	void			*p;
 
-	if (emd_init == 0)
-		e_mem_init();
-	if (e_runtime_disable)
-		return (e_malloc_internal(sz));
-
 	p = e_malloc_internal(sz);
+
+	if (e_runtime_disable)
+		return (p);
+
 	CNDBG(exude_clog_debug_mask, "sz %lu file %s func %s line %d "
 	    "p %p", (unsigned long) sz, file, func, line, p);
 
@@ -236,12 +260,11 @@ e_calloc_debug(size_t nmemb, size_t sz, const char *file,
 {
 	void			*p;
 
-	if (emd_init == 0)
-		e_mem_init();
-	if (e_runtime_disable)
-		return (e_calloc_internal(nmemb, sz));
-
 	p = e_calloc_internal(nmemb, sz);
+
+	if (e_runtime_disable)
+		return (p);
+
 	CNDBG(exude_clog_debug_mask,
 	    "nmemb %lu sz %lu file %s func %s line %d "
 	    "p %p", (unsigned long) nmemb, (unsigned long) sz, file, func,
@@ -257,8 +280,6 @@ e_free_debug(void **p, const char *file, const char *func, int line)
 {
 	struct e_mem_debug	e, *emd;
 
-	if (emd_init == 0)
-		CABORTX("not init yet %s %s %d", file, func, line);
 	if (e_runtime_disable) {
 		e_free_internal(p);
 		return;
@@ -271,16 +292,20 @@ e_free_debug(void **p, const char *file, const char *func, int line)
 	    *p, file, func, line);
 
 	e.emd_address = *p;
+	EX_LOCK(emd_mtx);
 	if ((emd = RB_FIND(e_mem_debug_tree, &emd_mem_debug, &e)) != NULL) {
 		/* found */
 		RB_REMOVE(e_mem_debug_tree, &emd_mem_debug, emd);
+		EX_UNLOCK(emd_mtx);
 		if (emd_paint_free)
 			memset(emd->emd_address, 0xff, emd->emd_size);
 		free(emd);
 
 		e_free_internal(p);
-	} else
+	} else {
+		EX_UNLOCK(emd_mtx);
 		CFATALX("%p not found %s %s %d", *p, file, func, line);
+	}
 
 }
 
@@ -289,12 +314,10 @@ e_strdup_debug(const char *s, const char *file, const char *func, int line)
 {
 	char			*p;
 
-	if (emd_init == 0)
-		e_mem_init();
-	if (e_runtime_disable)
-		return (e_strdup_internal(s));
-
 	p = e_strdup_internal(s);
+
+	if (e_runtime_disable)
+		return (p);
 
 	CNDBG(exude_clog_debug_mask, "p %p p %s", s, s);
 
@@ -309,9 +332,6 @@ e_asprintf_debug(char **ret, const char *file, const char *func, int line,
 {
 	va_list			ap;
 	int			sz;
-
-	if (emd_init == 0)
-		e_mem_init();
 
 	va_start(ap, fmt);
 	if ((sz = vasprintf(ret, fmt, ap)) == -1)
@@ -331,9 +351,6 @@ e_vasprintf_debug(char **ret, const char *file, const char *func, int line,
 {
 	int			sz;
 
-	if (emd_init == 0)
-		e_mem_init();
-
 	if ((sz = vasprintf(ret, fmt, ap)) == -1)
 		CFATAL("vasprintf failed");
 
@@ -351,8 +368,6 @@ e_realloc_debug(void *p, size_t sz, const char *file, const char *func,
 	struct e_mem_debug	e, *emd;
 	void			*np = NULL;
 
-	if (emd_init == 0)
-		e_mem_init();
 	if (e_runtime_disable)
 		return(e_realloc_internal(p, sz));
 
@@ -366,17 +381,21 @@ e_realloc_debug(void *p, size_t sz, const char *file, const char *func,
 	}
 
 	e.emd_address = p;
+	EX_LOCK(emd_mtx);
 	if ((emd = RB_FIND(e_mem_debug_tree, &emd_mem_debug, &e)) != NULL) {
+		RB_REMOVE(e_mem_debug_tree, &emd_mem_debug, emd);
+		EX_UNLOCK(emd_mtx);
 		np = realloc(p, sz);
 		if (np == NULL)
 			CFATAL("realloc failed");
 		CNDBG(exude_clog_debug_mask, "found %p %lu now %p %lu", p,
 		    (unsigned long) emd->emd_size, np, (unsigned long) sz);
-		RB_REMOVE(e_mem_debug_tree, &emd_mem_debug, emd);
 		free(emd);
 		e_mem_add_rb(np, sz, file, func, line);
-	} else
+	} else {
+		EX_UNLOCK(emd_mtx);
 		CABORTX("%p not found for realloc", p);
+	}
 
 	CNDBG(exude_clog_debug_mask, "old %p new %p", p, np);
 
@@ -391,6 +410,7 @@ e_check_memory(void)
 	if (e_runtime_disable)
 		return;
 
+	EX_LOCK(emd_mtx);
 	if (!RB_EMPTY(&emd_mem_debug)) {
 		CWARNX("not all memory was freed");
 		RB_FOREACH(emd, e_mem_debug_tree, &emd_mem_debug) {
@@ -403,6 +423,7 @@ e_check_memory(void)
 		}
 		CABORTX("terminated");
 	}
+	EX_UNLOCK(emd_mtx);
 
 	CNDBG(exude_clog_debug_mask, "memory clean");
 }

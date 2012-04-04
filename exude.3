@@ -43,6 +43,10 @@
 .Fn exude_enable "uint64_t debug_bit"
 .Ft void
 .Fn exude_disable "void"
+.Ft void
+.Fn exude_enable_threads "void"
+.Ft void
+.Fn exude_cleanup "void"
 .Sh DESCRIPTION
 .Nm
 is a memory debugging library that aids in finding memory leaks.
@@ -62,6 +66,13 @@ debug mask that will be used by debugging functions.
 The macro
 .Fa EXUDE_DBG_ALWAYS
 may be used to log unconditionally.
+If
+.Nm
+is to be used in a threaded application then
+.Fn exude_enable_threads
+should be called before using library functions.
+.Fn exude_cleanup
+may be called to free any resources if the library is no longer needed.
 .Pp
 .Fn e_asprintf ,
 .Fn e_calloc ,

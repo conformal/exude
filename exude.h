@@ -34,6 +34,8 @@ void		 exude_version(int *major, int *minor, int *patch);
 #define	EXUDE_DBG_ALWAYS	(~(0Ull))
 void		 exude_enable(uint64_t);
 void		 exude_disable(void);
+void		 exude_enable_threads(void);
+void		 exude_cleanup(void);
 
 void	e_check_memory(void);
 void	*e_malloc_debug(size_t, const char *, const char *, int);
