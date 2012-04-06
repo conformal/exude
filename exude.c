@@ -178,7 +178,7 @@ e_cmp_mem_debug_addr(struct e_mem_debug *c1, struct e_mem_debug *c2)
 
 RB_GENERATE(e_mem_debug_tree, e_mem_debug, emd_entry, e_cmp_mem_debug_addr)
 
-#include "exude_threads.h"
+#include <exude_threads.h>
 
 
 static void *emd_mtx;

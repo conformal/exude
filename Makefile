@@ -18,7 +18,7 @@ BUILDVERSION != sh "${.CURDIR}/buildver.sh"
 
 DEBUG+= -ggdb3
 CFLAGS+= -Wall -Werror
-CFLAGS+= -I${INCDIR}
+CFLAGS+= -I${INCDIR} -I${.CURDIR}
 .if !${BUILDVERSION} == ""
 CPPFLAGS+= -DBUILDSTR=\"$(BUILDVERSION)\"
 .endif
