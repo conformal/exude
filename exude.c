@@ -19,6 +19,7 @@
 #include <string.h>
 
 #include <sys/types.h>
+#include <sys/tree.h>
 
 #include <clog.h>
 
@@ -29,6 +30,16 @@ static const char *vertag = "version: " EXUDE_VERSION " " BUILDSTR;
 #else
 static const char *vertag = "version: " EXUDE_VERSION;
 #endif
+
+struct e_mem_debug {
+	void		*emd_address;
+	size_t		emd_size;
+	const char	*emd_file;
+	const char	*emd_func;
+	int		emd_line;
+	RB_ENTRY(e_mem_debug)	emd_entry;	/* r/b on address */
+};
+RB_HEAD(e_mem_debug_tree, e_mem_debug);
 
 int			e_runtime_disable = 1;
 uint64_t		exude_clog_debug_mask;
@@ -155,8 +166,6 @@ e_realloc_internal(void *p, size_t sz)
 	return (np);
 }
 
-/* poor mans' memory tester */
-#ifdef E_MEM_DEBUG
 int
 e_cmp_mem_debug_addr(struct e_mem_debug *c1, struct e_mem_debug *c2)
 {
@@ -397,4 +406,3 @@ e_check_memory(void)
 
 	CNDBG(exude_clog_debug_mask, "memory clean");
 }
-#endif /* E_MEM_DEBUG */
