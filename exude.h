@@ -13,6 +13,8 @@
  * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
+#ifndef _EXUDE_H_
+#define _EXUDE_H_
 
 #include <stdlib.h>
 #include <stdarg.h>
@@ -54,3 +56,5 @@ void	*e_realloc_debug(void *, size_t, const char *, const char *, int);
 #define e_vasprintf(a,b, c)	e_vasprintf_debug(a, __FILE__, __FUNCTION__,\
 				    __LINE__, b, c)
 #define e_realloc(a,b)	e_realloc_debug(a, b, __FILE__, __FUNCTION__, __LINE__)
+
+#endif /* ! _EXUDE_H_ */
