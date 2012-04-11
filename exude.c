@@ -97,7 +97,7 @@ e_calloc_internal(size_t nmemb, size_t sz)
 
 	if (nmemb <= 0 || sz <= 0)
 		CABORTX("invalid calloc size %lu %lu", (unsigned long) sz,
-		    (unsigned long)nmemb);
+		    (unsigned long) nmemb);
 
 	p = calloc(nmemb, sz);
 	if (p == NULL) {
