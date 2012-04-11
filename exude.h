@@ -16,6 +16,7 @@
 #ifndef _EXUDE_H_
 #define _EXUDE_H_
 
+#include <stdint.h>
 #include <stdlib.h>
 #include <stdarg.h>
 
