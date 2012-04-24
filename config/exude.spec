@@ -1,5 +1,5 @@
 %define name		exude
-%define version		0.6.0
+%define version		0.7.0
 %define release		1
 
 Name: 		%{name}
@@ -55,6 +55,11 @@ develop applications with exude.
 /usr/lib/libexude.a
 
 %changelog
+* Tue Apr 24 2012 - drahn 0.7.0-1
+- Make thread safe
+- Add basic thread test program to tests/
+- Improve fatal error messages
+- Other minor cleanup and bug fixes
 * Fri Jan 06 2012 - davec 0.6.0-1
 - Add ability to control debug printing with a bit mask
 * Thu Oct 27 2011 - davec 0.5.0-1
