@@ -22,7 +22,7 @@ DPADD+= ${.CURDIR}/../libexude.a
 
 SRCS= exude_threadtest.c
 COPT+= -O2
-CFLAGS+= -Wall -Werror -ggdb3
+CFLAGS+= -Wall -Werror -g
 LDADD+=-pthread -L${LOCALBASE}/lib -lclog -lexude
 
 CFLAGS+= -I${.CURDIR}/..
