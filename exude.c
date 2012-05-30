@@ -304,7 +304,7 @@ e_free_debug(void **p, const char *file, const char *func, int line)
 		e_free_internal(p);
 	} else {
 		EX_UNLOCK(emd_mtx);
-		CFATALX("%p not found %s %s %d", *p, file, func, line);
+		CABORTX("%p not found %s %s %d", *p, file, func, line);
 	}
 
 }
