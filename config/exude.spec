@@ -1,5 +1,5 @@
 %define name		exude
-%define version		0.7.0
+%define version		0.7.1
 %define release		1
 
 Name: 		%{name}
@@ -55,6 +55,10 @@ develop applications with exude.
 /usr/lib/libexude.a
 
 %changelog
+* Tue Jul 17 2012 - davec 0.7.1-1
+- Use abort during debugging so cores are generated
+- Support clang builds
+- Fix non-release build versioning
 * Tue Apr 24 2012 - drahn 0.7.0-1
 - Make thread safe
 - Add basic thread test program to tests/
