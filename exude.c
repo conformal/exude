@@ -26,9 +26,9 @@
 #include "exude.h"
 
 #ifdef BUILDSTR
-static const char *vertag = "version: " EXUDE_VERSION " " BUILDSTR;
+static const char *vertag = EXUDE_VERSION " " BUILDSTR;
 #else
-static const char *vertag = "version: " EXUDE_VERSION;
+static const char *vertag = EXUDE_VERSION;
 #endif
 
 struct e_mem_debug {
