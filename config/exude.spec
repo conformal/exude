@@ -1,5 +1,5 @@
 %define name		exude
-%define version		0.7.1
+%define version		0.7.2
 %define release		1
 
 Name: 		%{name}
@@ -55,6 +55,10 @@ develop applications with exude.
 /usr/lib/libexude.a
 
 %changelog
+* Fri Jan 04 2013 - davec 0.7.2-1
+- Add support for Bitrig
+- Add support for cygwin
+- Remove the 'version: ' prefix from exude_verstring
 * Tue Jul 17 2012 - davec 0.7.1-1
 - Use abort during debugging so cores are generated
 - Support clang builds
