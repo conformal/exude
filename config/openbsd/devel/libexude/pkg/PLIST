@@ -3,5 +3,4 @@
 include/exude.h
 lib/libexude.a
 lib/libexude_p.a
-%%no_mips64%%
 @man man/man3/exude.3
