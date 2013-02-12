@@ -39,7 +39,7 @@ RM ?= rm -f
 
 # Compiler and linker flags.
 CPPFLAGS += -DNEED_LIBCLENS
-INCFLAGS += -I $(INCDIR)/clens -I .
+INCFLAGS += -I $(INCDIR)/clens -I . -I $(INCDIR)
 WARNFLAGS ?= -Wall -Werror
 DEBUG += -g
 CFLAGS += $(INCFLAGS) $(WARNFLAGS) $(DEBUG)
