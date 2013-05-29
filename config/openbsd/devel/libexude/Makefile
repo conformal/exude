@@ -3,6 +3,7 @@
 COMMENT=	memory allocation debugger library
 
 DISTNAME=	exude-0.7.2
+EPOCh=		0
 PKGNAME=	lib${DISTNAME}
 CATEGORIES=    	devel
 SHARED_LIBS=	exude	3.1
@@ -12,13 +13,10 @@ MASTER_SITES=	http://opensource.conformal.com/snapshots/exude/
 
 MAINTAINER=	Conformal Systems LLC <info@conformal.com>
 
-NO_REGRESS=	Yes
+NO_TEST=	Yes
 
 # ISC
 PERMIT_PACKAGE_CDROM=	Yes
-PERMIT_PACKAGE_FTP=	Yes
-PERMIT_DISTFILES_CDROM=	Yes
-PERMIT_DISTFILES_FTP=	Yes
 
 BUILD_DEPENDS=	devel/libclog
 
