@@ -1,3 +1,10 @@
+exude (0.7.3-1) unstable; urgency=low
+
+  * Correct a build issue when LOCALBASE was not default
+  * Fix OpenBSD port Makefile for modern OpenBSD ports
+
+ -- Conformal Systems <package-discuss@conformal.com>  Fri, 31 May 2013 10:47:25 -0500
+
 exude (0.7.2-1) unstable; urgency=low
 
   * Add support for Bitrig

@@ -1,5 +1,5 @@
 %define name		exude
-%define version		0.7.2
+%define version		0.7.3
 %define release		1
 
 Name: 		%{name}
@@ -55,6 +55,9 @@ develop applications with exude.
 /usr/lib/libexude.a
 
 %changelog
+* Fri May 31 2013 - davec 0.7.3-1
+- Correct a build issue when LOCALBASE was not default
+- Fix OpenBSD port Makefile for modern OpenBSD ports
 * Fri Jan 04 2013 - davec 0.7.2-1
 - Add support for Bitrig
 - Add support for cygwin

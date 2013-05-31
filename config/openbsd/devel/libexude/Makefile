@@ -2,7 +2,7 @@
 
 COMMENT=	memory allocation debugger library
 
-DISTNAME=	exude-0.7.2
+DISTNAME=	exude-0.7.3
 EPOCh=		0
 PKGNAME=	lib${DISTNAME}
 CATEGORIES=    	devel
