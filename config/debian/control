@@ -1,15 +1,16 @@
 Source: exude
 Priority: optional
 Maintainer: Conformal Systems LLC <package-discuss@conformal.com>
-Build-Depends: debhelper (>= 7), libc6-dev, locales
-Standards-Version: 3.8.3
+Build-Depends: debhelper (>= 9), libclog-dev, libclens-dev
+Standards-Version: 3.9.5
 Section: libs
 Homepage: http://opensource.conformal.com/wiki/exude
 
 Package: libexude-dev
 Section: libdevel
 Architecture: any
-Depends: clens-dev (>= 0.0.5), libexude3 (= ${binary:Version})
+Multi-Arch: same
+Depends: libclens-dev (>= 0.0.5), libexude3 (= ${binary:Version})
 Description: Simple to use memory debugger library for C - development
  This package contains the libraries, include files, and documentation
  to develop applications with exude.
@@ -19,8 +20,9 @@ Description: Simple to use memory debugger library for C - development
  prevent common errors such as double free, memory leaks etc.
 
 Package: libexude3
-Section: libs
 Architecture: any
+Multi-Arch: same
+Pre-Depends: ${misc:Pre-Depends}
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: Simple to use memory debugger library for C - runtime
  This package contains the runtime, shared library of exude.
